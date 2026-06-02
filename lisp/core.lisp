@@ -6,3 +6,11 @@
       (t (list color-actual 'color-por-defecto))
     )
 )
+;casos de prueba
+(print (transicion 'rojo 'verde))
+(print (transicion 'rojo 'amarillo))
+(print (transicion 'amarillo 'rojo))
+;resultados
+('rojo "cambiar-a-verde")
+('rojo 'color-por-defecto)
+('amarillo "cambiar-a-verde")
