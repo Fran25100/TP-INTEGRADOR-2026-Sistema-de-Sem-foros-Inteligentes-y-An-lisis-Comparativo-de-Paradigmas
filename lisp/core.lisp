@@ -181,8 +181,15 @@ Break 3 [5]>
 		"La duracion NO SE en encuentra en el rango optimo" 
 	  )
 	)
-
+; requisito 4b aun en proceso
 (defun recomendacion-ciclo(duracion) 
 
 
 	)
+;requisito 5
+(defun ciclos-por-tiempo(minutos)
+  (progn
+      (print "La cantidad de ciclos es de:")
+      (print(truncate(/ (* minutos 60) 216 )))  ;truncate toma el resultado de una operacion y elimina el decimal, si el resultado es 28.9, quedaria 28 
+     )
+ )
