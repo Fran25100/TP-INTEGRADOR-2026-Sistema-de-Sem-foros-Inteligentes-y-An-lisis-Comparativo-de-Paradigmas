@@ -172,3 +172,12 @@ Break 3 [5]> (LogginLights 56095 'rojo 'verde)
 Tiempo 56095: la luz ah cambiado de color ROJO a VERDE
 NIL
 Break 3 [5]> 
+
+
+; requerimiento 4 en proceso, 4a
+(defun duracion-ciclo(duracion) 
+	(if (and (>= duracion 35) (<= duracion 150) )
+		t
+		nil
+	  )
+	)
