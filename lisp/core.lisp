@@ -177,7 +177,12 @@ Break 3 [5]>
 ; requerimiento 4 en proceso, 4a
 (defun duracion-ciclo(duracion) 
 	(if (and (>= duracion 35) (<= duracion 150) )
-		t
-		nil
+		"La duracion esta en el rango optimo"
+		"La duracion NO SE en encuentra en el rango optimo" 
 	  )
+	)
+
+(defun recomendacion-ciclo(duracion) 
+
+
 	)
