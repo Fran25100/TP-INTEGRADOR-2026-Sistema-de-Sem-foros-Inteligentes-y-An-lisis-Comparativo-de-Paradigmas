@@ -187,6 +187,13 @@ Break 3 [5]>
 
 	)
 ;requisito 5
+;; ========================================================
+;; FUNCIÓN: ciclos-por-tiempo
+;; NATURALEZA: Pura (dependiendo del tiempo que recibe, retorna un resultado)
+;; ESTRATEGIA: es una funcion que retorna un resultado
+;; IMPACTO: No destructiva
+;; ========================================================
+
 (defun ciclos-por-tiempo(minutos)
   (progn
       (print "La cantidad de ciclos es de:")
