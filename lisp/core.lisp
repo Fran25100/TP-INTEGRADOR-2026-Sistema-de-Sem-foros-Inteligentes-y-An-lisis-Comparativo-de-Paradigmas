@@ -1,14 +1,37 @@
 
 *** - LOAD: A file with name $file does not exist
-Break 1 [3]> #| Funcion: Transicion
+Break 1 [3]>;==========================================================================================================
+#| Funcion: Transicion
 				Naturaleza: Impura (escribe en pantalla segun los datos de entrada)
 				Estrategia: Orden Superior
 				Impacto En Memoria: No Destructiva, no realiza cambios
 
  |#
 
-(defun transicion (color-actual cambiar-a)
+#|(defun transicion (color-actual cambiar-a)
 			(cond ((and (equal color-actual 'en-verde) (equal cambiar-a 'amarillo)) (list color-actual "cambiar-a-amarillo"))
+			((and (equal color-actual 'en-amarillo) (equal cambiar-a 'rojo)) (list color-actual "cambair-a-rojo")) 
+			((and (equal color-actual 'en-rojo) (equal cambiar-a 'verde)) (list color-actual "cambiar-a-verde"))
+			(t (list color-actual 'accion-por-defecto))
+)
+
+TRANSICION
+Break 1 [3]> (transicion 'en-rojo 'verde)
+
+(EN-ROJO "cambiar-a-verde")
+
+)|#
+
+#| Funcion: Transicion
+				Naturaleza: Impura (escribe en pantalla segun los datos de entrada)
+				Estrategia: Orden Superior
+				Impacto En Memoria: No Destructiva, no realiza cambios
+
+ |#
+;=============================================================================================================================
+;correcion de error: falta de 1 caso en transicion rojo->amarillo
+(defun transicion (color-actual cambiar-a)
+			(cond ((or (and (equal color-actual 'en-verde) (equal cambiar-a 'amarillo)) (and (equal color-actual 'en-rojo) (equal cambiar-a 'amarillo))) (list color-actual "cambiar-a-amarillo"))
 			((and (equal color-actual 'en-amarillo) (equal cambiar-a 'rojo)) (list color-actual "cambair-a-rojo")) 
 			((and (equal color-actual 'en-rojo) (equal cambiar-a 'verde)) (list color-actual "cambiar-a-verde"))
 			(t (list color-actual 'accion-por-defecto))
@@ -16,9 +39,16 @@ Break 1 [3]> #| Funcion: Transicion
 )
 
 TRANSICION
-Break 1 [3]> (transicion 'en-rojo 'verde)
+Break 1 [3]> (transicion 'en-verde 'amarillo)
 
-(EN-ROJO "cambiar-a-verde")
+(EN-VERDE "cambiar-a-amarillo")
+Break 1 [3]> (transicion 'en-rojo 'amarillo)
+
+(EN-ROJO "cambiar-a-amarillo")
+Break 1 [3]> (transicion 'en-amarillo 'amarillo)
+
+(EN-AMARILLO ACCION-POR-DEFECTO)
+
 Break 1 [3]> ;-------------------------------------------------------------------------------------------------------------------
 #| Funcion: timer
 				Naturaleza: Impura (escribe en pantalla segun los datos de entrada)
@@ -113,10 +143,10 @@ Break 3 [5]> (time-unix 863)
 Break 3 [5]> #| como se puede observar, el limite inferior de rojo en este ejemplo es de 953, por lo que al restar 90s, se obtiene
 el valor de "verde", pero si en vez de eso se restara un valor menor a 90s, se obtiene el valor de amarillo. esto debido
 al ciclo del semaforo: verde->amarillo->rojo->verde...|#
-(print "hola")
+(print "actualizacion")
 
-"hola" 
-"hola"
+"actualizacion" 
+"actualizacion"
 Break 3 [5]> (time-unix 1034)
 
 "verde"
@@ -148,9 +178,15 @@ al ciclo del semaforo: verde->amarillo->rojo->verde... al restar 90 nos estariam
 
  |#
 ;-------------------------------------------------------------------------------------------------------------------
-Break 3 [5]> (defun timer (timeUnix)
+Break 3 [5]> #|(defun timer (timeUnix)
 				(cond ((and (>= (mod unix 216) 0) (<= (mod unix 216) 89)) "rojo")
 				((and (>= (mod unix 216) 96) (<= (mod unix 216) 216)) "verde")
+)
+)|#
+(defun timer (timeUnix)
+				(cond ((and (>= (mod timeUnix 216) 0) (<= (mod timeUnix 216) 89)) "rojo")
+				((and (>= (mod timeUnix 216) 90) (<= (mod timeUnix 216) 95)) "amarillo")
+				(t "verde")
 )
 )
 
@@ -163,18 +199,22 @@ Break 3 [5]> ;------------------------------------------------------------------
  |#
 ;-------------------------------------------------------------------------------------------------------------------
 
-(defun LogginLights (timeUnix color-actual cambio-color)
+#| (defun LogginLights (timeUnix color-actual cambio-color)
 					(format t "Tiempo ~D: la luz ah cambiado de color ~S a ~S" timeUnix color-actual cambio-color)
 )
-
 LOGGINLIGHTS
 Break 3 [5]> (LogginLights 56095 'rojo 'verde)
 Tiempo 56095: la luz ah cambiado de color ROJO a VERDE
-NIL
-Break 3 [5]> 
+NIL|#
+;correcion: se automatizo el tiempo para que sea calculado directamente dentro de esta funcion, en vez de un tiempo que puede estar
+;desactualizado, restamos al tiempo el cual esta dado desde 1970 unos 70 años para que se sicronicen correctamente. 
+(defun LogginLights (color-actual cambio-color)
+					(format t "Tiempo ~D: la luz ah cambiado de color ~S a ~S" (- (get-universal-time) 2208988800) color-actual cambio-color)
+)
 
-
+Break 3 [5]> ;-----------------------------------------------------------------------------------------
 ; requerimiento 4 en proceso, 4a
+;------------------------------------------------------------------------------------------------------
 (defun duracion-ciclo(duracion) 
 	(if (and (>= duracion 35) (<= duracion 150) )
 		"La duracion esta en el rango optimo"
