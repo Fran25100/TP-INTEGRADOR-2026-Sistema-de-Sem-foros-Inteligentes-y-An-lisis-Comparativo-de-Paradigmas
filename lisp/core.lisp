@@ -213,20 +213,32 @@ NIL|#
 )
 
 Break 3 [5]> ;-----------------------------------------------------------------------------------------
-; requerimiento 4 en proceso, 4a
-;------------------------------------------------------------------------------------------------------
+;requerimiento 4.a
+;; ========================================================
+;; FUNCIÓN: duracion-ciclo
+;; NATURALEZA: Pura
+;; ESTRATEGIA: Simple (no recursiva, no predicado, no utiliza funciones de orden superior)
+;; IMPACTO: No destructiva
+;; ========================================================
 ( defun duracion-ciclo ()
     (+ 120 90 6)
 )
 
+;requerimiento 4.b
+;; ========================================================
+;; FUNCIÓN: recomendacion-ciclo
+;; NATURALEZA: Pura
+;; ESTRATEGIA: Simple (condicional IF)
+;; IMPACTO: No destructiva
+;; ========================================================
 (defun recomendacion-ciclo (duracion)
     (if (and (>= duracion 35) (<= duracion 150)); preferi no ser tan especifico y cambiarlo a un if
 		"ciclo optimo"
 		"ciclo no optimo"
     )
 )
-
-(print (recomendacion-ciclo (duracion-ciclo)));esta en hecho en visual code por eso capaz es distinto a los demas funciones de mis compañeros
+(print (recomendacion-ciclo (duracion-ciclo)))
+;esta en hecho en visual code por eso capaz es distinto a los demas funciones de mis compañeros
 
 ;requisito 5
 ;; ========================================================
