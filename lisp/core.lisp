@@ -215,17 +215,20 @@ NIL|#
 Break 3 [5]> ;-----------------------------------------------------------------------------------------
 ; requerimiento 4 en proceso, 4a
 ;------------------------------------------------------------------------------------------------------
-(defun duracion-ciclo(duracion) 
-	(if (and (>= duracion 35) (<= duracion 150) )
-		"La duracion esta en el rango optimo"
-		"La duracion NO SE en encuentra en el rango optimo" 
-	  )
-	)
-; requisito 4b aun en proceso
-(defun recomendacion-ciclo(duracion) 
+( defun duracion-ciclo ()
+    (+ 120 90 6)
+)
 
+(defun recomendacion-ciclo (duracion)
+    (cond
+        ((< duracion 35) "ciclo demasiado corto")
+        ((> duracion 150) "ciclo demasiado largo")
+        (t "ciclo en rango recomendado")
+    )
+)
 
-	)
+(print (recomendacion-ciclo (duracion-ciclo)));esta en hecho en visual code por eso capaz es distinto a los demas funciones de mis compañeros
+
 ;requisito 5
 ;; ========================================================
 ;; FUNCIÓN: ciclos-por-tiempo
