@@ -1,35 +1,13 @@
 
 *** - LOAD: A file with name $file does not exist
 Break 1 [3]>;==========================================================================================================
-#| Funcion: Transicion
-				Naturaleza: Impura (escribe en pantalla segun los datos de entrada)
-				Estrategia: Orden Superior
-				Impacto En Memoria: No Destructiva, no realiza cambios
-
- |#
-
-#|(defun transicion (color-actual cambiar-a)
-			(cond ((and (equal color-actual 'en-verde) (equal cambiar-a 'amarillo)) (list color-actual "cambiar-a-amarillo"))
-			((and (equal color-actual 'en-amarillo) (equal cambiar-a 'rojo)) (list color-actual "cambair-a-rojo")) 
-			((and (equal color-actual 'en-rojo) (equal cambiar-a 'verde)) (list color-actual "cambiar-a-verde"))
-			(t (list color-actual 'accion-por-defecto))
-)
-
-TRANSICION
-Break 1 [3]> (transicion 'en-rojo 'verde)
-
-(EN-ROJO "cambiar-a-verde")
-
-)|#
-
-#| Funcion: Transicion
-				Naturaleza: Impura (escribe en pantalla segun los datos de entrada)
-				Estrategia: Orden Superior
-				Impacto En Memoria: No Destructiva, no realiza cambios
-
- |#
+#| 
+Funcion: Transicion
+NATURALEZA: Pura
+ESTRATEGIA: Simple (utiliza COND)
+IMPACTO: No destructiva
+|#
 ;=============================================================================================================================
-;correcion de error: falta de 1 caso en transicion rojo->amarillo
 (defun transicion (color-actual cambiar-a)
 			(cond ((or (and (equal color-actual 'en-verde) (equal cambiar-a 'amarillo)) (and (equal color-actual 'en-rojo) (equal cambiar-a 'amarillo))) (list color-actual "cambiar-a-amarillo"))
 			((and (equal color-actual 'en-amarillo) (equal cambiar-a 'rojo)) (list color-actual "cambair-a-rojo")) 
