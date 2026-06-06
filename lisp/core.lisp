@@ -220,10 +220,9 @@ Break 3 [5]> ;------------------------------------------------------------------
 )
 
 (defun recomendacion-ciclo (duracion)
-    (cond
-        ((< duracion 35) "ciclo demasiado corto")
-        ((> duracion 150) "ciclo demasiado largo")
-        (t "ciclo en rango recomendado")
+    (if (and (>= duracion 35) (<= duracion 150)); preferi no ser tan especifico y cambiarlo a un if
+		"ciclo optimo"
+		"ciclo no optimo"
     )
 )
 
