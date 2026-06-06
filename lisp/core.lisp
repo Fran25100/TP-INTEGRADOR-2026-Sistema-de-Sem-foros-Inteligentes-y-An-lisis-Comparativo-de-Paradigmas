@@ -238,3 +238,16 @@ Break 3 [5]> ;------------------------------------------------------------------
     (print "La cantidad de ciclos es de:")
     (print(truncate(/ (* minutos 60) 216 )))  ;truncate toma el resultado de una operacion y elimina el decimal, si el resultado es 28.9, quedaria 28 
  )
+
+;requisito 6, avisen si hace falta cambios o no
+(defun distribuciontemporal(segundos) ;3600 segundos, osea 1 hora
+       (print"Los porcentajes son:")
+       (print"Porcentaje del rojo")
+       (print(/ (* (* 90.0 (/ segundos 216.0)) 100.0) segundos)) ;rojo
+       (print "Porcentaje de amarillo")
+       (print(/ (* (* 6.0 (/ segundos 216.0)) 100.0) segundos)) ;amarillo
+       (print "Porcentaje de verde")
+       (print(/ (* (* 120.0 (/ segundos 216.0)) 100.0) segundos)) ;verde
+  )
+(distribuciontemporal 3600)
+
