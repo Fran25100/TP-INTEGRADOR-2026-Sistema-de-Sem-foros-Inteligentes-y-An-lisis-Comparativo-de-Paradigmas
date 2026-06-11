@@ -1,10 +1,9 @@
-#|========================================================================================================== 
+#|-------------------------------------------------------------------------------------------------------------------
 Funcion: Transicion
 NATURALEZA: Pura
 ESTRATEGIA: estructura condicional (implementada con COND)
 IMPACTO: No destructiva
-=============================================================================================================================|#
-
+-------------------------------------------------------------------------------------------------------------------|#
 ( defun transicion (color-actual cambiar-a)
     (cond
         ((and (eq color-actual 'en-rojo) (eq cambiar-a 'en-rojo-intermitente)) (list color-actual "CAMBIAR-A-ROJO-INTERMITENTE" ))
@@ -110,46 +109,58 @@ Impacto En Memoria: No Destructiva, no realiza cambios
 ;CASO ALEATORIO
 (timer 1234);EN-VERDE
 
-Break 3 [5]> ;-------------------------------------------------------------------------------------------------------------------
-#| Funcion: LogginLights
-				Naturaleza: Impura (escribe en pantalla segun los datos de entrada)
-				Estrategia: Orden Superior (implementada con format)
-				Impacto En Memoria: No Destructiva, no realiza cambios
- |#
-;-------------------------------------------------------------------------------------------------------------------
-
-#| (defun LogginLights (timeUnix color-actual cambio-color)
-					(format t "Tiempo ~D: la luz ah cambiado de color ~S a ~S" timeUnix color-actual cambio-color)
-)
-LOGGINLIGHTS
-Break 3 [5]> (LogginLights 56095 'rojo 'verde)
-Tiempo 56095: la luz ah cambiado de color ROJO a VERDE
-NIL|#
+#|-------------------------------------------------------------------------------------------------------------------
+Funcion: LogginLights
+Naturaleza: Impura (por FORMAT T y GET-UNIVERSAL-TIME, escribe en pantalla segun los datos de entrada)
+Estrategia: Simple (implementada con FORMAT y GET-UNIVERSAL-TIME)
+Impacto En Memoria: No Destructiva, no realiza cambios
+-------------------------------------------------------------------------------------------------------------------|#
 ;correcion: se automatizo el tiempo para que sea calculado directamente dentro de esta funcion, en vez de un tiempo que puede estar
 ;desactualizado, restamos al tiempo el cual esta dado desde 1970 unos 70 años para que se sicronicen correctamente. 
+
 (defun LogginLights (color-actual cambio-color)
 					(format t "Tiempo ~D: la luz ah cambiado de color ~S a ~S" (- (get-universal-time) 2208988800) color-actual cambio-color)
 )
 
-Break 3 [5]> ;-----------------------------------------------------------------------------------------
-;requerimiento 4.a
-;; ========================================================
-;; FUNCIÓN: duracion-ciclo
-;; NATURALEZA: Pura
-;; ESTRATEGIA: Simple (no recursiva, no predicado, no utiliza funciones de orden superior)
-;; IMPACTO: No destructiva
-;; ========================================================
+(logginLights 'en-rojo 'en-rojo-intermitente)
+;Tiempo 1781220382: la luz ah cambiado de color EN-ROJO a EN-ROJO-INTERMITENTE
+
+(logginLights 'en-rojo-intermitente 'en-verde)
+;Tiempo 1781220197: la luz ah cambiado de color EN-ROJO-INTERMITENTE a EN-VERDE
+
+(logginLights 'en-verde 'en-verde-intermitente)
+;Tiempo 1781220439: la luz ah cambiado de color EN-VERDE a EN-VERDE-INTERMITENTE
+
+(logginLights 'en-verde-intermitente 'en-amarillo)
+;Tiempo 1781220476: la luz ah cambiado de color EN-VERDE-INTERMITENTE a EN-AMARILLO
+
+(logginLights 'en-amarillo 'en-amarillo-intermitente)
+;Tiempo 1781220500: la luz ah cambiado de color EN-AMARILLO a EN-AMARILLO-INTERMITENTE
+
+(logginLights 'en-amarillo-intermitente 'en-rojo)
+;Tiempo 1781220532: la luz ah cambiado de color EN-AMARILLO-INTERMITENTE a EN-ROJO
+
+#|-------------------------------------------------------------------------------------------------------------------
+FUNCIÓN: duracion-ciclo
+NATURALEZA: Pura
+ESTRATEGIA: Simple (no recursiva, no predicado, no utiliza funciones de orden superior)
+IMPACTO: No destructiva
+-------------------------------------------------------------------------------------------------------------------|#
+; requerimiento 4.a
+;; 
+
 (defun duracion-ciclo ()
     (+ 120 90 6)
 )
 
-;requerimiento 4.b
-;; ========================================================
-;; FUNCIÓN: recomendacion-ciclo
-;; NATURALEZA: Pura
-;; ESTRATEGIA: alternativa doble (condicional IF)
-;; IMPACTO: No destructiva
-;; ========================================================
+#|-------------------------------------------------------------------------------------------------------------------
+FUNCIÓN: recomendacion-ciclo
+NATURALEZA: Pura
+ESTRATEGIA: alternativa doble (condicional IF)
+IMPACTO: No destructiva
+-------------------------------------------------------------------------------------------------------------------|#
+; requerimiento 4.b
+
 (defun recomendacion-ciclo (duracion)
     (if (and (>= duracion 35) (<= duracion 150)); preferi no ser tan especifico y cambiarlo a un if
 		"ciclo optimo"
