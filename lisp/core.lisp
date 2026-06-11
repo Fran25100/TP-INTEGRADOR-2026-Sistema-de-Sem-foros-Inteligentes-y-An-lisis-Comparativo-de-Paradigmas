@@ -8,13 +8,20 @@ ESTRATEGIA: estructura condicional (implementada con COND)
 IMPACTO: No destructiva
 |#
 ;=============================================================================================================================
-(defun transicion (color-actual cambiar-a)
+#|(defun transicion (color-actual cambiar-a)
 			(cond ((or (and (equal color-actual 'en-verde) (equal cambiar-a 'amarillo)) (and (equal color-actual 'en-rojo) (equal cambiar-a 'amarillo))) (list color-actual "cambiar-a-amarillo"))
 			((and (equal color-actual 'en-amarillo) (equal cambiar-a 'rojo)) (list color-actual "cambair-a-rojo")) 
 			((and (equal color-actual 'en-rojo) (equal cambiar-a 'verde)) (list color-actual "cambiar-a-verde"))
 			(t (list color-actual 'accion-por-defecto))
 )
-)
+)|#
+(defun transicion (color-actual cambiar-a)
+			(cond ((and (equal color-actual 'en-rojo) (equal cambiar-a 'amarillo)) (list color-actual "cambiar-a-amarillo") )
+			((and (equal color-actual 'en-amarillo) (equal cambiar-a 'verde)) (list color-actual "cambiar-a-verde")) 
+			((and (equal color-actual 'en-verde) (equal cambiar-a 'rojo)) (list color-actual "cambiar-a-rojo"))
+			(t (list color-actual 'accion-por-defecto))
+) 
+) 
 
 TRANSICION
 Break 1 [3]> (transicion 'en-verde 'amarillo)
