@@ -21,13 +21,25 @@ IMPACTO: No destructiva
 )
 
 TRANSICION
-Break 1 [3]> (transicion 'en-verde 'amarillo)
+Break 1 [3]> (transicion 'en-verde 'CAMBIAR-A-VERDE-INTERMITENTE)
 
-(EN-VERDE "cambiar-a-amarillo")
-Break 1 [3]> (transicion 'en-rojo 'amarillo)
+(EN-VERDE "CAMBIAR-A-VERDE-INTERMITENTE")
+Break 1 [3]> (transicion 'en-rojo 'CAMBIAR-A-ROJO-INTERMITENTE)
 
-(EN-ROJO "cambiar-a-amarillo")
-Break 1 [3]> (transicion 'en-amarillo 'amarillo)
+(EN-ROJO "CAMBIAR-A-ROJO-INTERMITENTE")
+Break 1 [3]> (transicion 'en-amarillo 'CAMBIAR-A-AMARILLO-INTERMITENTE)
+
+(EN-AMARILLO "CAMBIAR-A-AMARILLO-INTERMITENTE")
+Break 1 [3]> (transicion 'en-verde-intermitente 'CAMBIAR-A-ROJO)
+
+(EN-VERDE-INTERMITENTE "CAMBIAR-A-ROJO")
+Break 1 [3]> (transicion 'en-rojo-intermitente 'CAMBIAR-A-VERDE)
+
+(EN-ROJO-INTERMITENTE "CAMBIAR-A-VERDE")
+Break 1 [3]> (transicion 'en-amarillo-intermitente 'CAMBIAR-A-ROJO)
+
+(EN-AMARILLO-INTERMITENTE "CAMBIAR-A-ROJO")
+break 1 [3]> (transicion 'EN-AMARILLO 'ACCION-POR-DEFECTO)
 
 (EN-AMARILLO ACCION-POR-DEFECTO)
 
