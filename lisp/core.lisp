@@ -285,11 +285,11 @@ ESTRATEGIA: alternativa Doble (if)
 IMPACTO: No destrutiva
 ========================================================================================
 |#
+#| CASO FALLIDO:
 (defun distribucionTemp (unix)
-				(if (zerop (mod unix 216)) "| 55,5% verde| 41,6% rojo | 2,7% amarillo|" #|------> el mod nos muestra
+				(if (zerop (mod unix 216)) "| 55,5% verde| 41,6% rojo | 2,7% amarillo|" ------> el mod nos muestra
 	donde estamos parados, si es = 0 son 16 verdes completos, 16 amarillos y 16,6 rojos. en porcentajes de tiempo serian:
-	55,5% V, 41,6% R y 2,7% A.|#
-				
+	55,5% V, 41,6% R y 2,7% A.
 				;((not(zerop (mod unix 216) 0)) 
 				(format t "| ~A% rojo| ~A% amarillo | ~A% verde|"
 						(car (calcularPorcentajes (calcularRestoIni (mod unix 216)) (calcularRestoFin (mod (- 3600 (mod unix 216)) 216) ) ))
@@ -302,6 +302,28 @@ IMPACTO: No destrutiva
 			;entra al 2do elemento de la lista de los porcentajes (especificamente el amarillo) y hace el mismo proceso anterior
 				(caddr (calcularPorcentajes (calcularRestoIni (mod unix 216)) (calcularRestoFin (mod (- 3600 (mod unix 216)) 216) ) ))
 			;entra al 3er elemento de la lista de los porcentajes (verde), sigue el mismo proceso
+	)
+)					
+)|#
+				
+;CORRECTO
+(defun distribucionTemp (unix)
+				(if (zerop (mod unix 216)) "| 55,5% verde| 41,6% rojo | 2,7% amarillo|" #|------> el mod nos muestra
+	donde estamos parados, si es = 0 son 16 verdes completos, 16 amarillos y 16,6 rojos. en porcentajes de tiempo serian:
+	55,5% V, 41,6% R y 2,7% A.|#
+				
+				;((not(zerop (mod unix 216) 0)) 
+				(format t "| ~A% rojo| ~A% amarillo | ~A% verde|"
+						(car (calcularPorcentajes (calcularRestoIni (mod unix 216)) (calcularRestoFin (mod (- 3600 (- 216(mod unix 216))) 216) ) ))
+						;entra al primer elemento (porcentaje del rojo) de la lista, calcularPorcentajes recibe 2 parametros
+				;el 1er, devuelve una lista de los restos CONSUMIDOS al inicio extremo de la hora
+				;el 2do, devuelve una lista con los restos CONSUMIDOS en el extremo final de la hora, el calculo "(mod (- 3600 (- 216(mod unix 216))) 216)"
+						;es el resultado de: (- 3600 (- 216(mod unix 216))) = "tiempo Acotado" que es lo que me queda del tiempo en la 2da hora (sacando el consumido
+						;del resto inicial), y el mod externo nos da el extremo final de esa hora.
+					(cadr (calcularPorcentajes (calcularRestoIni (mod unix 216)) (calcularRestoFin (mod (- 3600 (- 216(mod unix 216))) 216) ) ))
+					;entra al 2do elemento de la lista de los porcentajes (especificamente el amarillo) y hace el mismo proceso anterior
+				(caddr (calcularPorcentajes (calcularRestoIni (mod unix 216)) (calcularRestoFin (mod (- 3600 (- 216(mod unix 216))) 216) ) ))
+				;entra al 3er elemento de la lista de los porcentajes (verde), sigue el mismo proceso
 	)
 )					
 )
