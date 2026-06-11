@@ -8,20 +8,17 @@ ESTRATEGIA: estructura condicional (implementada con COND)
 IMPACTO: No destructiva
 |#
 ;=============================================================================================================================
-#|(defun transicion (color-actual cambiar-a)
-			(cond ((or (and (equal color-actual 'en-verde) (equal cambiar-a 'amarillo)) (and (equal color-actual 'en-rojo) (equal cambiar-a 'amarillo))) (list color-actual "cambiar-a-amarillo"))
-			((and (equal color-actual 'en-amarillo) (equal cambiar-a 'rojo)) (list color-actual "cambair-a-rojo")) 
-			((and (equal color-actual 'en-rojo) (equal cambiar-a 'verde)) (list color-actual "cambiar-a-verde"))
-			(t (list color-actual 'accion-por-defecto))
+( defun transicion (color-actual cambiar-a)
+    (cond
+        ((and (eq color-actual 'en-rojo) (eq cambiar-a 'en-rojo-intermitente)) (list color-actual "CAMBIAR-A-ROJO-INTERMITENTE" ))
+        ((and (eq color-actual 'en-rojo-intermitente) (eq cambiar-a 'en-verde)) (list color-actual "CAMBIAR-A-VERDE" ))
+        ((and (eq color-actual 'en-verde) (eq cambiar-a 'en-verde-intermitente)) (list color-actual "CAMBIAR-A-Verde-INTERMITENTE" ))
+        ((and (eq color-actual 'en-verde-intermitente) (eq cambiar-a 'en-amarillo)) (list color-actual "CAMBIAR-A-AMARILLO" ))
+        ((and (eq color-actual 'en-amarillo) (eq cambiar-a 'en-amarillo-intermitente)) (list color-actual "CAMBIAR-A-AMARILLO-INTERMITENTE" ))
+        ((and (eq color-actual 'en-amarillo-intermitente) (eq cambiar-a 'en-rojo)) (list color-actual "CAMBIAR-A-ROJO" ))
+        (t (list color-actual 'accion-por-defecto ))
+    )
 )
-)|#
-(defun transicion (color-actual cambiar-a)
-			(cond ((and (equal color-actual 'en-rojo) (equal cambiar-a 'amarillo)) (list color-actual "cambiar-a-amarillo") )
-			((and (equal color-actual 'en-amarillo) (equal cambiar-a 'verde)) (list color-actual "cambiar-a-verde")) 
-			((and (equal color-actual 'en-verde) (equal cambiar-a 'rojo)) (list color-actual "cambiar-a-rojo"))
-			(t (list color-actual 'accion-por-defecto))
-) 
-) 
 
 TRANSICION
 Break 1 [3]> (transicion 'en-verde 'amarillo)
