@@ -4,7 +4,7 @@ Break 1 [3]>;===================================================================
 #| 
 Funcion: Transicion
 NATURALEZA: Pura
-ESTRATEGIA: Simple (utiliza COND)
+ESTRATEGIA: estructura condicional (implementada con COND)
 IMPACTO: No destructiva
 |#
 ;=============================================================================================================================
@@ -151,7 +151,7 @@ al ciclo del semaforo: verde->amarillo->rojo->verde... al restar 90 nos estariam
 ;-------------------------------------------------------------------------------------------------------------------
 #| Funcion: timer
 				Naturaleza: Impura (escribe en pantalla segun los datos de entrada)
-				Estrategia: Orden Superior (implementada con cond, and y mod)
+				Estrategia: estructura condicional (implementada con cond)
 				Impacto En Memoria: No Destructiva, no realiza cambios
 
  |#
@@ -198,7 +198,7 @@ Break 3 [5]> ;------------------------------------------------------------------
 ;; ESTRATEGIA: Simple (no recursiva, no predicado, no utiliza funciones de orden superior)
 ;; IMPACTO: No destructiva
 ;; ========================================================
-( defun duracion-ciclo ()
+(defun duracion-ciclo ()
     (+ 120 90 6)
 )
 
@@ -206,7 +206,7 @@ Break 3 [5]> ;------------------------------------------------------------------
 ;; ========================================================
 ;; FUNCIÓN: recomendacion-ciclo
 ;; NATURALEZA: Pura
-;; ESTRATEGIA: Simple (condicional IF)
+;; ESTRATEGIA: alternativa doble (condicional IF)
 ;; IMPACTO: No destructiva
 ;; ========================================================
 (defun recomendacion-ciclo (duracion)
@@ -221,8 +221,8 @@ Break 3 [5]> ;------------------------------------------------------------------
 ;requisito 5
 ;; ========================================================
 ;; FUNCIÓN: ciclos-por-tiempo
-;; NATURALEZA: Pura (dependiendo del tiempo que recibe, retorna un resultado)
-;; ESTRATEGIA: es una funcion que retorna un resultado
+;; NATURALEZA: Impura (escribe en pantalla un resultado dependiendo de los minutos de entrada)
+;; ESTRATEGIA: estructura secuencial (no presenta recursion en su implementacion)
 ;; IMPACTO: No destructiva
 ;; ========================================================
 
@@ -230,16 +230,75 @@ Break 3 [5]> ;------------------------------------------------------------------
     (print "La cantidad de ciclos es de:")
     (print(truncate(/ (* minutos 60) 216 )))  ;truncate toma el resultado de una operacion y elimina el decimal, si el resultado es 28.9, quedaria 28 
  )
+;--------------------------------------------------------------------------------------------------------------------------------------
+;requisito 6
+#|======================================================================================   
+FUNCION AUXILIAR: CalcularRestoIni
+NATURALEZA: pura (dependiendo del resto que recibe, retorna un resultado)
+ESTRATEGIA: alternativa Multiple (cond)
+IMPACTO: No destrutiva
+========================================================================================
+|#
+(defun calcularRestoIni (restoIni)
+					(cond ((<= 0 restoIni 90) (list (- 90 restoIni) 6 120)) ;(-90 restoIni) --> indica lo consumido por rojo
+					((<= 90 restoIni 96) (list 0 (- 216 restoIni 120) 120)) ;(- 216 restoIni 120) --> indica lo consumido por amarillo
+					(t (list 0 0 (- 216 restoIni)) ) ;(- 216 restoIni) -->indica lo consumido por verde
+)
+)
+#|======================================================================================   
+FUNCION AUXILIAR: CalcularRestoFin
+NATURALEZA: pura (dependiendo del resto que recibe, retorna un resultado)
+ESTRATEGIA: alternativa Multiple (cond)
+IMPACTO: No destrutiva
+========================================================================================
+|#
+(defun calcularRestoFin (restoFin)
+				(cond ((<= 0 restoFin 90) (list restoFin 0 0)) ; restoFin --> indica lo consumido por rojo
+					((<= 90 restoFin 96) (list 90 (- restoFin 90) 0)) ;(- restoFin 90) --> indica lo consumido por amarillo
+					(t (list 90 6 (- restoFin 90 6)) ) ; (- restoFin 90 6) --> indica lo consumido por verde
+)
+)
+#|=================================================================================================  
+FUNCION AUXILIAR: calcularPorcentajes
+NATURALEZA: Pura (devuelve una lista con los porcentajes de los restos de cada color del semaforo)
+ESTRATEGIA: alternativa Multiple (cond)
+IMPACTO: No destrutiva
+==================================================================================================
+|#
+(defun calcularPorcentajes (ListaIni ListaFin)
+				(list (float(/(*(+ 1440 (car ListaFin) (car ListaIni))100) 3600)) ;rojo
+				(float(/(*(+ 96 (cadr ListaFin) (cadr ListaIni))100)3600)) ;amarillo
+				(float(/(*(+ 1920 (caddr ListaFin) (caddr ListaIni))100)3600)) ;verde
+)
+)
+#|======================================================================================   
+FUNCION: calcularPorcentajes
+NATURALEZA: impura (imprime en pantalla los resultados de los porcentajes)
+ESTRATEGIA: alternativa Doble (if)
+IMPACTO: No destrutiva
+========================================================================================
+|#
+(defun distribucionTemp (unix)
+				(if (zerop (mod unix 216)) "| 55,5% verde| 41,6% rojo | 2,7% amarillo|" #|------> el mod nos muestra
+	donde estamos parados, si es = 0 son 16 verdes completos, 16 amarillos y 16,6 rojos. en porcentajes de tiempo serian:
+	55,5% V, 41,6% R y 2,7% A.|#
+				
+				;((not(zerop (mod unix 216) 0)) 
+				(format t "| ~A% rojo| ~A% amarillo | ~A% verde|"
+						(car (calcularPorcentajes (calcularRestoIni (mod unix 216)) (calcularRestoFin (mod (- 3600 (mod unix 216)) 216) ) ))
+			;entra al primer elemento (porcentaje del rojo) de la lista, calcularPorcentajes recibe 2 parametros
+				;el 1er, devuelve una lista de los restos CONSUMIDOS al inicio extremo de la hora
+				;el 2do, devuelve una lista con los restos CONSUMIDOS en el extremo final de la hora, el calculo "(mod (- 3600 (mod unix 216)) 216)"
+						;es el resultado de: (- 3600 (mod unix 216) = "tiempo Acotado" que es lo que me queda del tiempo en la 2da hora (sacando el consumido
+						;del resto inicial), y el mod externo nos da el extremo final de esa hora.
+					(cadr (calcularPorcentajes (calcularRestoIni (mod unix 216)) (calcularRestoFin (mod (- 3600 (mod unix 216)) 216) ) ))
+			;entra al 2do elemento de la lista de los porcentajes (especificamente el amarillo) y hace el mismo proceso anterior
+				(caddr (calcularPorcentajes (calcularRestoIni (mod unix 216)) (calcularRestoFin (mod (- 3600 (mod unix 216)) 216) ) ))
+			;entra al 3er elemento de la lista de los porcentajes (verde), sigue el mismo proceso
+	)
+)					
+)
+;--------------------------------------------------------------------------------------------------------------------------------------
 
-;requisito 6, avisen si hace falta cambios o no
-(defun distribuciontemporal(segundos) ;3600 segundos, osea 1 hora
-       (print"Los porcentajes son:")
-       (print"Porcentaje del rojo")
-       (print(/ (* (* 90.0 (/ segundos 216.0)) 100.0) segundos)) ;rojo
-       (print "Porcentaje de amarillo")
-       (print(/ (* (* 6.0 (/ segundos 216.0)) 100.0) segundos)) ;amarillo
-       (print "Porcentaje de verde")
-       (print(/ (* (* 120.0 (/ segundos 216.0)) 100.0) segundos)) ;verde
-  )
-(distribuciontemporal 3600)
+
 
