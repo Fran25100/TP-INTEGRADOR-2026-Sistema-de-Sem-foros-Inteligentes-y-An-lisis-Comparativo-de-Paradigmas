@@ -1,13 +1,10 @@
-
-*** - LOAD: A file with name $file does not exist
-Break 1 [3]>;==========================================================================================================
-#| 
+#|========================================================================================================== 
 Funcion: Transicion
 NATURALEZA: Pura
 ESTRATEGIA: estructura condicional (implementada con COND)
 IMPACTO: No destructiva
-|#
-;=============================================================================================================================
+=============================================================================================================================|#
+
 ( defun transicion (color-actual cambiar-a)
     (cond
         ((and (eq color-actual 'en-rojo) (eq cambiar-a 'en-rojo-intermitente)) (list color-actual "CAMBIAR-A-ROJO-INTERMITENTE" ))
@@ -20,36 +17,33 @@ IMPACTO: No destructiva
     )
 )
 
-TRANSICION
-Break 1 [3]> (transicion 'en-verde 'CAMBIAR-A-VERDE-INTERMITENTE)
-
+(transicion 'en-verde 'CAMBIAR-A-VERDE-INTERMITENTE)
 (EN-VERDE "CAMBIAR-A-VERDE-INTERMITENTE")
-Break 1 [3]> (transicion 'en-rojo 'CAMBIAR-A-ROJO-INTERMITENTE)
 
+(transicion 'en-rojo 'CAMBIAR-A-ROJO-INTERMITENTE)
 (EN-ROJO "CAMBIAR-A-ROJO-INTERMITENTE")
-Break 1 [3]> (transicion 'en-amarillo 'CAMBIAR-A-AMARILLO-INTERMITENTE)
 
+(transicion 'en-amarillo 'CAMBIAR-A-AMARILLO-INTERMITENTE)
 (EN-AMARILLO "CAMBIAR-A-AMARILLO-INTERMITENTE")
-Break 1 [3]> (transicion 'en-verde-intermitente 'CAMBIAR-A-ROJO)
 
+(transicion 'en-verde-intermitente 'CAMBIAR-A-ROJO)
 (EN-VERDE-INTERMITENTE "CAMBIAR-A-ROJO")
-Break 1 [3]> (transicion 'en-rojo-intermitente 'CAMBIAR-A-VERDE)
 
+(transicion 'en-rojo-intermitente 'CAMBIAR-A-VERDE)
 (EN-ROJO-INTERMITENTE "CAMBIAR-A-VERDE")
-Break 1 [3]> (transicion 'en-amarillo-intermitente 'CAMBIAR-A-ROJO)
 
+(transicion 'en-amarillo-intermitente 'CAMBIAR-A-ROJO)
 (EN-AMARILLO-INTERMITENTE "CAMBIAR-A-ROJO")
-break 1 [3]> (transicion 'EN-AMARILLO 'ACCION-POR-DEFECTO)
 
+(transicion 'EN-AMARILLO 'ACCION-POR-DEFECTO)
 (EN-AMARILLO ACCION-POR-DEFECTO)
 
-Break 3 [5]> ;-------------------------------------------------------------------------------------------------------------------
-#| Funcion: timer
-				Naturaleza: Impura (escribe en pantalla segun los datos de entrada)
-				Estrategia: Orden Superior (implementada con format)
-				Impacto En Memoria: No Destructiva, no realiza cambios
- |#
-;-------------------------------------------------------------------------------------------------------------------
+#|-------------------------------------------------------------------------------------------------------------------
+Funcion: timer
+Naturaleza: Pura
+Estrategia: Simple (implementada con LET, MOD y COND)
+Impacto En Memoria: No Destructiva, no realiza cambios
+-------------------------------------------------------------------------------------------------------------------|#
 
 ( defun timer (timestap )
     (let ((segundos (mod timestap 225)))
@@ -63,6 +57,58 @@ Break 3 [5]> ;------------------------------------------------------------------
         )
     )
 )
+
+(timer 0);EN-ROJO
+
+(timer 40);EN-ROJO
+
+(timer 89);EN-ROJO
+
+(timer 90);EN-ROJO-INTERMITENTE
+
+(timer 91);EN-ROJO-INTERMITENTE
+
+(timer 92);EN-ROJO-INTERMITENTE
+
+(timer 93);EN-VERDE
+
+(timer 185);EN-VERDE
+
+(timer 212);EN-VERDE
+
+(timer 213);EN-VERDE-INTERMITENTE
+
+(timer 214);EN-VERDE-INTERMITENTE
+
+(timer 215);EN-VERDE-INTERMITENTE
+
+(timer 216);EN-AMARILLO
+
+(timer 220);EN-AMARILLO
+
+(timer 221);EN-AMARILLO
+
+(timer 222);EN-AMARILLO-INTERMITENTE
+
+(timer 223);EN-AMARILLO-INTERMITENTE
+
+(timer 224);EN-AMARILLO-INTERMITENTE
+
+;EN OTRO CICLO
+(timer 225);EN-ROJO
+
+(timer 316);EN-ROJO INTERMITENTE
+
+(timer 370);EN-VERDE
+
+(timer 440);EN-VERDE-INTERMITENTE
+
+(timer 446);EN-AMARILLO
+
+(timer 449);EN-AMARILLO-INTERMITENTE
+
+;CASO ALEATORIO
+(timer 1234);EN-VERDE
 
 Break 3 [5]> ;-------------------------------------------------------------------------------------------------------------------
 #| Funcion: LogginLights
