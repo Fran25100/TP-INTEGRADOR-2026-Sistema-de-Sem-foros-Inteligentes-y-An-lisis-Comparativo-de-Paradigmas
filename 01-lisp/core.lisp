@@ -103,8 +103,8 @@ IMPACTO: No destructiva
 )
 
 ;ciclo pedido (con iteracion 2 extension 1)
-(duracion-ciclo 90 120 6 3)
-;225
+(duracion-ciclo 87 117 3 3)
+;216
 
 ;otro ciclo
 (duracion-ciclo 40 60 5 2)
@@ -142,7 +142,7 @@ IMPACTO: No destructiva
 -------------------------------------------------------------------------------------------------------------------#|
 (defun ciclos-por-tiempo(minutos)
     (print "La cantidad de ciclos es de:")
-    (print (truncate (/ (* minutos 60) 225)));truncate toma el resultado de una operacion y elimina el decimal, si el resultado es 28.9, quedaria 28
+    (print (truncate (/ (* minutos 60) 216)));truncate toma el resultado de una operacion y elimina el decimal, si el resultado es 28.9, quedaria 28
 )
 
 ;caso pedido
@@ -162,12 +162,12 @@ IMPACTO: No destrutiva
 
 (defun calcularRestoIni (restoIni)
 	(cond 
-        ((<= 0 restoIni 89) (list (- 89 restoIni) 3 120 3 6 3)) ;(- 90 restoIni) --> indica lo consumido por rojo
-        ((<= 90 restoIni 92) (list 0 (- 92 restoIni) 120 3 6 3)) ;(- 92 restoIni) --> indica lo consumido por el rojo-intermitente
-		((<= 93 restoIni 212) (list 0 0 (- 212 restoIni) 3 6 3)) ;(- 212 restoIni) --> indica lo consumido por verde
-        ((<= 213 restoIni 215) (list 0 0 0 (- 215 restoIni) 6 3)) ;(- 215 restoIni) --> indica lo consumido por verde-intermitente
-		((<= 216 restoIni 221) (list 0 0 0 0 (- 221 restoIni) 3)) ;(- 221 restoIni) --> indica lo consumido por amarillo
-        ((<= 222 restoIni 224) (list 0 0 0 0 0 (- 224 restoIni))) ;(-224 restoIni) --> indica lo consumido por amarillo-intermitente
+        ((<= 0 restoIni 86) (list (- 86 restoIni) 3 117 3 3 3)) ;(- 86 restoIni) --> indica lo consumido por rojo
+        ((<= 87 restoIni 90) (list 0 (- 90 restoIni) 117 3 3 3)) ;(- 90 restoIni) --> indica lo consumido por el rojo-intermitente
+		((<= 91 restoIni 206) (list 0 0 (- 206 restoIni) 3 3 3)) ;(- 206 restoIni) --> indica lo consumido por verde
+        ((<= 207 restoIni 209) (list 0 0 0 (- 209 restoIni) 3 3)) ;(- 209 restoIni) --> indica lo consumido por verde-intermitente
+		((<= 209 restoIni 212) (list 0 0 0 0 (- 212 restoIni) 3)) ;(- 212 restoIni) --> indica lo consumido por amarillo
+        ((<= 212 restoIni 215) (list 0 0 0 0 0 (- 215 restoIni))) ;(-215 restoIni) --> indica lo consumido por amarillo-intermitente
     )
 )
 
@@ -180,14 +180,15 @@ IMPACTO: No destrutiva
 
 (defun calcularRestoFin (restoFin)
 	(cond  
-        ((<= 0 restoFin 89) (list (- 89 restoFin) 3 120 3 6 3)) ;(- 90 restoFin) --> indica lo consumido por rojo
-        ((<= 90 restoFin 92) (list 0 (- 92 restoFin) 120 3 6 3)) ;(- 92 restoFin) --> indica lo consumido por el rojo-intermitente
-		((<= 93 restoFin 212) (list 0 0 (- 212 restoFin) 3 6 3)) ;(- 212 restoFin) --> indica lo consumido por verde
-        ((<= 213 restoFin 215) (list 0 0 0 (- 215 restoFin) 6 3)) ;(- 215 restoFin) --> indica lo consumido por verde-intermitente
-		((<= 216 restoFin 221) (list 0 0 0 0 (- 221 restoFin) 3)) ;(- 221 restoFin) --> indica lo consumido por amarillo
-        ((<= 222 restoFin 224) (list 0 0 0 0 0 (- 224 restoFin))) ;(- 224 restoFin) --> indica lo consumido por amarillo-intermitente
+        ((<= 0 restoFin 89) (list (- 89 restoFin) 3 117 3 3 3)) ;(- 86 restoFin) --> indica lo consumido por rojo
+        ((<= 87 restoFin 90) (list 0 (- 90 restoFin) 117 3 3 3)) ;(- 90 restoFin) --> indica lo consumido por el rojo-intermitente
+		((<= 91 restoFin 206) (list 0 0 (- 206 restoFin) 3 3 3)) ;(- 206 restoFin) --> indica lo consumido por verde
+        ((<= 207 restoFin 209) (list 0 0 0 (- 209 restoFin) 3 3)) ;(- 209 restoFin) --> indica lo consumido por verde-intermitente
+		((<= 209 restoFin 212) (list 0 0 0 0 (- 212 restoFin) 3)) ;(- 212 restoFin) --> indica lo consumido por amarillo
+        ((<= 212 restoFin 215) (list 0 0 0 0 0 (- 215 restoFin))) ;(- 215 restoFin) --> indica lo consumido por amarillo-intermitente
     )
 )
+
 
 #|-------------------------------------------------------------------------------------------------------------------
 FUNCION AUXILIAR: calcularPorcentajes
@@ -252,16 +253,18 @@ IMPACTO: No destructiva
 )
 ;--------------------------------------------------------------------------------------------------------------------------------------
 (defun distribucionTemp (unix)
-	(if (zerop (mod unix 225)) "| 40,0% rojo| 1,3% rojo-intermitente | 53,3% verde| 1,3% verde-intermitente| 2,6% amarillo| 1,3% amarillo intermitente|"
+	(if (zerop (mod unix 216)) "| 40,28% rojo| 1,39% rojo-intermitente | 54,17% verde| 1,39% verde-intermitente| 1,39% amarillo| 1,39% amarillo intermitente|"
 	    (format t "~%| ~A% rojo| ~A% rojo-intermitente| ~A% verde | ~A% verde-intermitente| ~A% amarillo| ~A% amarillo-intermitente|"
-	    (car (calcularPorcentajes (calcularRestoIni (mod unix 225)) (calcularRestoFin (mod (- 3600 (- 225 (mod unix 225))) 225))))
-		(cadr (calcularPorcentajes (calcularRestoIni (mod unix 225)) (calcularRestoFin (mod (- 3600 (- 225 (mod unix 225))) 225))))
-	    (caddr (calcularPorcentajes (calcularRestoIni (mod unix 225)) (calcularRestoFin (mod (- 3600 (- 225 (mod unix 225))) 225))))
-        (cadddr (calcularPorcentajes (calcularRestoIni (mod unix 225)) (calcularRestoFin (mod (- 3600 (- 225 (mod unix 225))) 225))))
-        (cadddr (cdr (calcularPorcentajes (calcularRestoIni (mod unix 225)) (calcularRestoFin (mod (- 3600 (- 225 (mod unix 225))) 225)))))
-        (car (last (calcularPorcentajes (calcularRestoIni (mod unix 225)) (calcularRestoFin (mod (- 3600 (- 225 (mod unix 225))) 225))))))
+	    (car (calcularPorcentajes (calcularRestoIni (mod unix 216)) (calcularRestoFin (mod (- 3600 (- 216 (mod unix 216))) 216))))
+		(cadr (calcularPorcentajes (calcularRestoIni (mod unix 216)) (calcularRestoFin (mod (- 3600 (- 216 (mod unix 216))) 216))))
+	    (caddr (calcularPorcentajes (calcularRestoIni (mod unix 216)) (calcularRestoFin (mod (- 3600 (- 216 (mod unix 216))) 216))))
+        (cadddr (calcularPorcentajes (calcularRestoIni (mod unix 216)) (calcularRestoFin (mod (- 3600 (- 216 (mod unix 216))) 216))))
+        (cadddr (cdr (calcularPorcentajes (calcularRestoIni (mod unix 216)) (calcularRestoFin (mod (- 3600 (- 216 (mod unix 216))) 216)))))
+        (car (last (calcularPorcentajes (calcularRestoIni (mod unix 216)) (calcularRestoFin (mod (- 3600 (- 216 (mod unix 216))) 216))))))
     )					
 )
+
+(print (distribuciontemp 3600))
 
 (defun logginLights (color-actual cambio-color)
     (format nil "Tiempo ~D: la luz ah cambiado de color ~S a ~S" (- (get-universal-time) 2208988800) color-actual cambio-color)
