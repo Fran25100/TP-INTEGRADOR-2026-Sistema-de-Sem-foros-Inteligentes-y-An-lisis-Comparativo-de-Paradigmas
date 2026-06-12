@@ -211,11 +211,16 @@ IMPACTO: No destrutiva
 -------------------------------------------------------------------------------------------------------------------|#
 
 (defun calcularRestoIni (restoIni)
-					(cond ((<= 0 restoIni 90) (list (- 90 restoIni) 6 120)) ;(-90 restoIni) --> indica lo consumido por rojo
-					((<= 90 restoIni 96) (list 0 (- 216 restoIni 120) 120)) ;(- 216 restoIni 120) --> indica lo consumido por amarillo
-					(t (list 0 0 (- 216 restoIni)) ) ;(- 216 restoIni) -->indica lo consumido por verde
+	(cond 
+        ((<= 0 restoIni 89) (list (- 89 restoIni) 3 120 3 6 3)) ;(- 90 restoIni) --> indica lo consumido por rojo
+        ((<= 90 restoIni 92) (list 0 (- 92 restoIni) 120 3 6 3)) ;(- 92 restoIni) --> indica lo consumido por el rojo-intermitente
+		((<= 93 restoIni 212) (list 0 0 (- 212 restoIni) 3 6 3)) ;(- 212 restoIni) --> indica lo consumido por verde
+        ((<= 213 restoIni 215) (list 0 0 0 (- 215 restoIni) 6 3)) ;(- 215 restoIni) --> indica lo consumido por verde-intermitente
+		((<= 216 restoIni 221) (list 0 0 0 0 (- 221 restoIni) 3)) ;(- 221 restoIni) --> indica lo consumido por amarillo
+        ((<= 222 restoIni 224) (list 0 0 0 0 0 (- 224 restoIni))) ;(-224 restoIni) --> indica lo consumido por amarillo-intermitente
+    )
 )
-)
+
 #|-------------------------------------------------------------------------------------------------------------------
 FUNCION AUXILIAR: CalcularRestoFin
 NATURALEZA: pura (dependiendo del resto que recibe, retorna un resultado)
@@ -224,29 +229,35 @@ IMPACTO: No destrutiva
 -------------------------------------------------------------------------------------------------------------------|#
 
 (defun calcularRestoFin (restoFin)
-				(cond ((<= 0 restoFin 90) (list restoFin 0 0)) ; restoFin --> indica lo consumido por rojo
-					((<= 90 restoFin 96) (list 90 (- restoFin 90) 0)) ;(- restoFin 90) --> indica lo consumido por amarillo
-					(t (list 90 6 (- restoFin 90 6)) ) ; (- restoFin 90 6) --> indica lo consumido por verde
+	(cond  
+        ((<= 0 restoFin 89) (list (- 89 restoFin) 3 120 3 6 3)) ;(- 90 restoFin) --> indica lo consumido por rojo
+        ((<= 90 restoFin 92) (list 0 (- 92 restoFin) 120 3 6 3)) ;(- 92 restoFin) --> indica lo consumido por el rojo-intermitente
+		((<= 93 restoFin 212) (list 0 0 (- 212 restoFin) 3 6 3)) ;(- 212 restoFin) --> indica lo consumido por verde
+        ((<= 213 restoFin 215) (list 0 0 0 (- 215 restoFin) 6 3)) ;(- 215 restoFin) --> indica lo consumido por verde-intermitente
+		((<= 216 restoFin 221) (list 0 0 0 0 (- 221 restoFin) 3)) ;(- 221 restoFin) --> indica lo consumido por amarillo
+        ((<= 222 restoFin 224) (list 0 0 0 0 0 (- 224 restoFin))) ;(- 224 restoFin) --> indica lo consumido por amarillo-intermitente
+    )
 )
-)
+
 #|-------------------------------------------------------------------------------------------------------------------
 FUNCION AUXILIAR: calcularPorcentajes
-NATURALEZA: Pura (devuelve una lista con los porcentajes de los restos de cada color del semaforo)
-ESTRATEGIA: alternativa Multiple (cond)
-IMPACTO: No destrutiva
+NATURALEZA: Pura (devuelve una lista con los porcentajes de cada estado del semáforo)
+ESTRATEGIA: Secuencial (implementamos mediante operaciones aritméticas y la construcción de listas)
+IMPACTO: No destructiva
 -------------------------------------------------------------------------------------------------------------------|#
+
 (defun calcularPorcentajes (ListaIni ListaFin)
-				(list (float(/(*(+ 1440 (car ListaFin) (car ListaIni))100) 3600)) ;rojo
-				(float(/(*(+ 96 (cadr ListaFin) (cadr ListaIni))100)3600)) ;amarillo
-				(float(/(*(+ 1920 (caddr ListaFin) (caddr ListaIni))100)3600)) ;verde
+	(list 
+        (float (/ (* (+ 1440 (car ListaFin) (car ListaIni)) 100) 3600)) ;rojo
+	    (float (/ (* (+ 48 (cadr ListaFin) (cadr ListaIni)) 100) 3600)) ;rojo-intermitente
+	    (float (/ (* (+ 1920 (caddr ListaFin) (caddr ListaIni)) 100)3600)) ;verde
+        (float (/ (* (+ 48 (cadddr ListaFin) (cadddr ListaIni)) 100) 3600)) ;verde-intermitente
+        (float (/ (* (+ 96 (cadddr (cdr ListaFin)) (cadddr (cdr ListaIni))) 100)3600)) ;amarillo
+        (float (/ (* (+ 48 (car (last ListaFin)) (car (last ListaIni))) 100) 3600)) ;amarillo-intermitente
+    )
 )
-)
-#|-------------------------------------------------------------------------------------------------------------------
-FUNCION: calcularPorcentajes
-NATURALEZA: impura (imprime en pantalla los resultados de los porcentajes)
-ESTRATEGIA: alternativa Doble (if)
-IMPACTO: No destrutiva
--------------------------------------------------------------------------------------------------------------------|#
+
+
 #| CASO FALLIDO:
 (defun distribucionTemp (unix)
 				(if (zerop (mod unix 216)) "| 55,5% verde| 41,6% rojo | 2,7% amarillo|" ------> el mod nos muestra
@@ -290,6 +301,17 @@ IMPACTO: No destrutiva
 )					
 )
 ;--------------------------------------------------------------------------------------------------------------------------------------
+(defun distribucionTemp (unix)
+	(if (zerop (mod unix 225)) "| 40,0% rojo| 1,3% rojo-intermitente | 53,3% verde| 1,3% verde-intermitente| 2,6% amarillo| 1,3% amarillo intermitente|"
+	    (format t "~%| ~A% rojo| ~A% rojo-intermitente| ~A% verde | ~A% verde-intermitente| ~A% amarillo| ~A% amarillo-intermitente|"
+	    (car (calcularPorcentajes (calcularRestoIni (mod unix 225)) (calcularRestoFin (mod (- 3600 (- 225 (mod unix 225))) 225))))
+		(cadr (calcularPorcentajes (calcularRestoIni (mod unix 225)) (calcularRestoFin (mod (- 3600 (- 225 (mod unix 225))) 225))))
+	    (caddr (calcularPorcentajes (calcularRestoIni (mod unix 225)) (calcularRestoFin (mod (- 3600 (- 225 (mod unix 225))) 225))))
+        (cadddr (calcularPorcentajes (calcularRestoIni (mod unix 225)) (calcularRestoFin (mod (- 3600 (- 225 (mod unix 225))) 225))))
+        (cadddr (cdr (calcularPorcentajes (calcularRestoIni (mod unix 225)) (calcularRestoFin (mod (- 3600 (- 225 (mod unix 225))) 225)))))
+        (car (last (calcularPorcentajes (calcularRestoIni (mod unix 225)) (calcularRestoFin (mod (- 3600 (- 225 (mod unix 225))) 225))))))
+    )					
+)
 
 
 
