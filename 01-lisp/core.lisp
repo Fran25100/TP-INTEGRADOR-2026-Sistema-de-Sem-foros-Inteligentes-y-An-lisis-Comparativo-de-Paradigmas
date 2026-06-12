@@ -4,111 +4,63 @@ NATURALEZA: Pura
 ESTRATEGIA: estructura condicional (implementada con COND)
 IMPACTO: No destructiva
 -------------------------------------------------------------------------------------------------------------------|#
-( defun transicion (color-actual cambiar-a)
+(defun transicion (color-actual cambiar-a)
     (cond
-        ((and (eq color-actual 'en-rojo) (eq cambiar-a 'en-rojo-intermitente)) (list color-actual "CAMBIAR-A-ROJO-INTERMITENTE" ))
-        ((and (eq color-actual 'en-rojo-intermitente) (eq cambiar-a 'en-verde)) (list color-actual "CAMBIAR-A-VERDE" ))
-        ((and (eq color-actual 'en-verde) (eq cambiar-a 'en-verde-intermitente)) (list color-actual "CAMBIAR-A-Verde-INTERMITENTE" ))
-        ((and (eq color-actual 'en-verde-intermitente) (eq cambiar-a 'en-amarillo)) (list color-actual "CAMBIAR-A-AMARILLO" ))
-        ((and (eq color-actual 'en-amarillo) (eq cambiar-a 'en-amarillo-intermitente)) (list color-actual "CAMBIAR-A-AMARILLO-INTERMITENTE" ))
-        ((and (eq color-actual 'en-amarillo-intermitente) (eq cambiar-a 'en-rojo)) (list color-actual "CAMBIAR-A-ROJO" ))
+        ((and (equal color-actual 'en-verde) (equal cambiar-a 'cambiar-a-amarillo)) (list color-actual 'verde-intermitente "CAMBIAR-A-AMARILLO" ))
+        ((and (equal color-actual 'en-amarillo) (equal cambiar-a 'cambiar-a-rojo)) (list color-actual 'amarillo-intermitente "CAMBIAR-A-ROJO"))
+        ((and (equal color-actual 'en-rojo) (equal cambiar-a 'cambiar-a-verde)) (list color-actual 'rojo-intermitente "CAMBIAR-A-Verde" ))
         (t (list color-actual 'accion-por-defecto ))
     )
 )
 
-(transicion 'en-verde 'CAMBIAR-A-VERDE-INTERMITENTE)
-(EN-VERDE "CAMBIAR-A-VERDE-INTERMITENTE")
+(transicion 'en-verde 'cambiar-a-amarillo)
+(EN-VERDE VERDE-INTERMITENTE "CAMBIAR-A-AMARILLO")
 
-(transicion 'en-rojo 'CAMBIAR-A-ROJO-INTERMITENTE)
-(EN-ROJO "CAMBIAR-A-ROJO-INTERMITENTE")
+(transicion 'en-verde 'cambiar-a-rojo)
+(EN-VERDE ACCION-POR-DEFECTO)
 
-(transicion 'en-amarillo 'CAMBIAR-A-AMARILLO-INTERMITENTE)
-(EN-AMARILLO "CAMBIAR-A-AMARILLO-INTERMITENTE")
-
-(transicion 'en-verde-intermitente 'CAMBIAR-A-ROJO)
-(EN-VERDE-INTERMITENTE "CAMBIAR-A-ROJO")
-
-(transicion 'en-rojo-intermitente 'CAMBIAR-A-VERDE)
-(EN-ROJO-INTERMITENTE "CAMBIAR-A-VERDE")
-
-(transicion 'en-amarillo-intermitente 'CAMBIAR-A-ROJO)
-(EN-AMARILLO-INTERMITENTE "CAMBIAR-A-ROJO")
-
-(transicion 'EN-AMARILLO 'ACCION-POR-DEFECTO)
-(EN-AMARILLO ACCION-POR-DEFECTO)
+(transicion 'en-amarillo 'cambiar-a-rojo)
+(EN-AMARILLO AMARILLO-INTERMITENTE "CAMBIAR-A-ROJO")
 
 #|-------------------------------------------------------------------------------------------------------------------
 Funcion: timer
 Naturaleza: Pura
-Estrategia: Simple (implementada con LET, MOD y COND)
+Estrategia: Simple (implementada con MOD y COND)
 Impacto En Memoria: No Destructiva, no realiza cambios
 -------------------------------------------------------------------------------------------------------------------|#
 
-( defun timer (timestap )
-    (let ((segundos (mod timestap 225)))
+(defun timer (timestap) ;cuando tenes un semaforo, al terminar el tiempo de rojo, no se le suma +3 de intermitencia al rojo
+									 ;la intermitencia empieza a cambiar en los ultimos 3 segundos de cada color
         (cond
-            ((and (>= segundos 0) (<= segundos 89)) 'en-rojo )
-            ((and (>= segundos 90) (<= segundos 92)) 'en-rojo-intermitente )
-            ((and (>= segundos 93) (<= segundos 212)) 'en-verde )
-            ((and (>= segundos 213) (<= segundos 215)) 'en-verde-intermitente )
-            ((and (>= segundos 216) (<= segundos 221)) 'en-amarillo )
-            ((and (>= segundos 222) (<= segundos 224)) 'en-amarillo-intermitente ) 
-        )
+            ((<= 0 (mod timestap 216) 86) 'en-rojo )
+            ((<= 87 (mod timestap 216) 89) 'en-rojo-intermitente )
+            ((<= 90 (mod timestap 216) 206) 'en-verde )
+            ((<= 207 (mod timestap 216) 209) 'en-verde-intermitente )
+            ((<= 210 (mod timestap 216) 212) 'en-amarillo )
+            (t 'en-amarillo-intermitente) 
     )
 )
 
-(timer 0);EN-ROJO
+(timer 526)
+EN-VERDE
 
-(timer 40);EN-ROJO
+(timer 2869)
+EN-ROJO
 
-(timer 89);EN-ROJO
+(timer 2895)
+EN-ROJO-INTERMITENTE
 
-(timer 90);EN-ROJO-INTERMITENTE
+(timer 1)
+EN-ROJO
 
-(timer 91);EN-ROJO-INTERMITENTE
+(timer 213)
+EN-AMARILLO-INTERMITENTE
 
-(timer 92);EN-ROJO-INTERMITENTE
+(timer 212)
+EN-AMARILLO
 
-(timer 93);EN-VERDE
-
-(timer 185);EN-VERDE
-
-(timer 212);EN-VERDE
-
-(timer 213);EN-VERDE-INTERMITENTE
-
-(timer 214);EN-VERDE-INTERMITENTE
-
-(timer 215);EN-VERDE-INTERMITENTE
-
-(timer 216);EN-AMARILLO
-
-(timer 220);EN-AMARILLO
-
-(timer 221);EN-AMARILLO
-
-(timer 222);EN-AMARILLO-INTERMITENTE
-
-(timer 223);EN-AMARILLO-INTERMITENTE
-
-(timer 224);EN-AMARILLO-INTERMITENTE
-
-;EN OTRO CICLO
-(timer 225);EN-ROJO
-
-(timer 316);EN-ROJO INTERMITENTE
-
-(timer 370);EN-VERDE
-
-(timer 440);EN-VERDE-INTERMITENTE
-
-(timer 446);EN-AMARILLO
-
-(timer 449);EN-AMARILLO-INTERMITENTE
-
-;CASO ALEATORIO
-(timer 1234);EN-VERDE
-
+(timer 217)
+EN-ROJO
 #|-------------------------------------------------------------------------------------------------------------------
 Funcion: LogginLights
 Naturaleza: Impura (por FORMAT T y GET-UNIVERSAL-TIME, escribe en pantalla segun los datos de entrada)
