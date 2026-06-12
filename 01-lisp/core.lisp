@@ -118,9 +118,7 @@ Impacto En Memoria: No Destructiva, no realiza cambios
 ;correcion: se automatizo el tiempo para que sea calculado directamente dentro de esta funcion, en vez de un tiempo que puede estar
 ;desactualizado, restamos al tiempo el cual esta dado desde 1970 unos 70 años para que se sicronicen correctamente. 
 
-(defun LogginLights (color-actual cambio-color)
-					(format t "Tiempo ~D: la luz ah cambiado de color ~S a ~S" (- (get-universal-time) 2208988800) color-actual cambio-color)
-)
+;aqui estaria la funcion logginLights pero la movi hacia abajo
 
 (logginLights 'en-rojo 'en-rojo-intermitente)
 ;Tiempo 1781220382: la luz ah cambiado de color EN-ROJO a EN-ROJO-INTERMITENTE
@@ -312,15 +310,27 @@ IMPACTO: No destructiva
         (car (last (calcularPorcentajes (calcularRestoIni (mod unix 225)) (calcularRestoFin (mod (- 3600 (- 225 (mod unix 225))) 225))))))
     )					
 )
-(defun recibirloggins() 
-	(informe (Logging (color-actual cambio-color)))
- )
+
+(defun logginLights (color-actual cambio-color)
+    (format nil "Tiempo ~D: la luz ah cambiado de color ~S a ~S" (- (get-universal-time) 2208988800) color-actual cambio-color)
+)
 ;Extension 2, sistema de datos
+(informe (list (logginLights 'en-rojo 'en-rojo-intermitente) (logginLights 'en-rojo-intermitente 'en-verde)
+ (logginLights 'en-verde 'en-verde-intermitente) (logginLights 'en-verde-intermitente 'en-amarillo)
+(logginLights 'en-amarillo 'en-amarillo-intermitente) (logginLights 'en-amarillo-intermitente 'en-rojo)
+ )
+)
+
 (defun informe (datos)
-  (with-open-file (stream "informe-ejecucion-semaforo.txt" :direction :output)
-    (format stream "Informe de Ejecución del Sistema Semafórico~%")
-    (format stream "=========================================~%")
-   (mapcar #'(lambda (x) format "~A~%" stream ) datos)
-    (format stream "~%--- Fin del Informe ---")))
+ (with-open-file (stream "informe-ejecucion-semaforo.txt" :direction :output)
+   (format stream "Informe de Ejecución del Sistema Semafórico~%")
+   (format stream "=========================================~%")
+
+   (mapcar #'(lambda (x) (format stream "~A~%" x)) datos)
+   ;; Implementar iteración sobre datos y formateo
+   ;; Ejemplo de línea: "2024-06-04 14:30:15 - Transición: ROJO → VERDE"
+   (format stream "~% --- Fin del Informe ---")
+   )
+ )
 
 
