@@ -313,5 +313,15 @@ IMPACTO: No destructiva
     )					
 )
 
+;Extension 2, sistema de datos
+(defun informe (datos)
+ (with-open-file (stream "informe-ejecucion-semaforo.txt" :direction :output)
+   (format stream "Informe de Ejecución del Sistema Semafórico~%")
+   (format stream "=========================================~%")
+   ;; Implementar iteración sobre datos y formateo
+   ;; Ejemplo de línea: "2024-06-04 14:30:15 - Transición: ROJO → VERDE"
+   (format stream "~% --- Fin del Informe ---")
+
+
 
 
