@@ -146,12 +146,15 @@ NATURALEZA: Pura
 ESTRATEGIA: Simple (no recursiva, no predicado, no utiliza funciones de orden superior)
 IMPACTO: No destructiva
 -------------------------------------------------------------------------------------------------------------------|#
-; requerimiento 4.a
-;; 
+; requerimiento 4.a 
 
-(defun duracion-ciclo ()
-    (+ 120 90 6)
+(defun duracion-ciclo (rojo verde amarillo intermitente )
+    (+ rojo verde amarillo (* intermitente 3))
 )
+
+;ciclo pedido (con iteracion 2 extension 1)
+(duracion-ciclo 90 120 6 3)
+;225
 
 #|-------------------------------------------------------------------------------------------------------------------
 FUNCIÓN: recomendacion-ciclo
@@ -167,69 +170,72 @@ IMPACTO: No destructiva
 		"ciclo no optimo"
     )
 )
-(print (recomendacion-ciclo (duracion-ciclo)))
-;esta en hecho en visual code por eso capaz es distinto a los demas funciones de mis compañeros
 
-;requisito 5
-;; ========================================================
-;; FUNCIÓN: ciclos-por-tiempo
-;; NATURALEZA: Impura (escribe en pantalla un resultado dependiendo de los minutos de entrada)
-;; ESTRATEGIA: estructura secuencial (no presenta recursion en su implementacion)
-;; IMPACTO: No destructiva
-;; ========================================================
+(recomendacion-ciclo (duracion-ciclo 90 120 6 3))
+;"ciclo no optimo"
+
+(recomendacion-ciclo (duracion ciclo 40 60 6 3))
+;"ciclo optimo"
+
+(recomendacion-ciclo (duracion-ciclo 7 12 5 3))
+;"ciclo no potimo"
+
+#|-------------------------------------------------------------------------------------------------------------------
+FUNCIÓN: ciclos-por-tiempo
+NATURALEZA: Impura (escribe en pantalla un resultado dependiendo de los minutos de entrada)
+ESTRATEGIA: estructura secuencial (no presenta recursion en su implementacion)
+IMPACTO: No destructiva
+-------------------------------------------------------------------------------------------------------------------#|
 
 (defun ciclos-por-tiempo(minutos)
     (print "La cantidad de ciclos es de:")
     (print(truncate(/ (* minutos 60) 216 )))  ;truncate toma el resultado de una operacion y elimina el decimal, si el resultado es 28.9, quedaria 28 
  )
-;--------------------------------------------------------------------------------------------------------------------------------------
-;requisito 6
-#|======================================================================================   
+
+#|-------------------------------------------------------------------------------------------------------------------   
 FUNCION AUXILIAR: CalcularRestoIni
 NATURALEZA: pura (dependiendo del resto que recibe, retorna un resultado)
 ESTRATEGIA: alternativa Multiple (cond)
 IMPACTO: No destrutiva
-========================================================================================
-|#
+-------------------------------------------------------------------------------------------------------------------|#
+
 (defun calcularRestoIni (restoIni)
 					(cond ((<= 0 restoIni 90) (list (- 90 restoIni) 6 120)) ;(-90 restoIni) --> indica lo consumido por rojo
 					((<= 90 restoIni 96) (list 0 (- 216 restoIni 120) 120)) ;(- 216 restoIni 120) --> indica lo consumido por amarillo
 					(t (list 0 0 (- 216 restoIni)) ) ;(- 216 restoIni) -->indica lo consumido por verde
 )
 )
-#|======================================================================================   
+#|-------------------------------------------------------------------------------------------------------------------
 FUNCION AUXILIAR: CalcularRestoFin
 NATURALEZA: pura (dependiendo del resto que recibe, retorna un resultado)
 ESTRATEGIA: alternativa Multiple (cond)
 IMPACTO: No destrutiva
-========================================================================================
-|#
+-------------------------------------------------------------------------------------------------------------------|#
+
 (defun calcularRestoFin (restoFin)
 				(cond ((<= 0 restoFin 90) (list restoFin 0 0)) ; restoFin --> indica lo consumido por rojo
 					((<= 90 restoFin 96) (list 90 (- restoFin 90) 0)) ;(- restoFin 90) --> indica lo consumido por amarillo
 					(t (list 90 6 (- restoFin 90 6)) ) ; (- restoFin 90 6) --> indica lo consumido por verde
 )
 )
-#|=================================================================================================  
+#|-------------------------------------------------------------------------------------------------------------------
 FUNCION AUXILIAR: calcularPorcentajes
 NATURALEZA: Pura (devuelve una lista con los porcentajes de los restos de cada color del semaforo)
 ESTRATEGIA: alternativa Multiple (cond)
 IMPACTO: No destrutiva
-==================================================================================================
-|#
+-------------------------------------------------------------------------------------------------------------------|#
 (defun calcularPorcentajes (ListaIni ListaFin)
 				(list (float(/(*(+ 1440 (car ListaFin) (car ListaIni))100) 3600)) ;rojo
 				(float(/(*(+ 96 (cadr ListaFin) (cadr ListaIni))100)3600)) ;amarillo
 				(float(/(*(+ 1920 (caddr ListaFin) (caddr ListaIni))100)3600)) ;verde
 )
 )
-#|======================================================================================   
+#|-------------------------------------------------------------------------------------------------------------------
 FUNCION: calcularPorcentajes
 NATURALEZA: impura (imprime en pantalla los resultados de los porcentajes)
 ESTRATEGIA: alternativa Doble (if)
 IMPACTO: No destrutiva
-========================================================================================
-|#
+-------------------------------------------------------------------------------------------------------------------|#
 #| CASO FALLIDO:
 (defun distribucionTemp (unix)
 				(if (zerop (mod unix 216)) "| 55,5% verde| 41,6% rojo | 2,7% amarillo|" ------> el mod nos muestra
