@@ -312,7 +312,9 @@ IMPACTO: No destructiva
         (car (last (calcularPorcentajes (calcularRestoIni (mod unix 225)) (calcularRestoFin (mod (- 3600 (- 225 (mod unix 225))) 225))))))
     )					
 )
-
+(defun recibirloggins() 
+	(informe (Logging (color-actual cambio-color)))
+ )
 ;Extension 2, sistema de datos
 (defun informe (datos)
  (with-open-file (stream "informe-ejecucion-semaforo.txt" :direction :output)
