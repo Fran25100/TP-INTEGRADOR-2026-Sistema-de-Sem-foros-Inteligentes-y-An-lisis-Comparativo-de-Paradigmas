@@ -156,6 +156,10 @@ IMPACTO: No destructiva
 (duracion-ciclo 90 120 6 3)
 ;225
 
+;otro ciclo
+(duracion-ciclo 40 60 5 2)
+;111
+
 #|-------------------------------------------------------------------------------------------------------------------
 FUNCIÓN: recomendacion-ciclo
 NATURALEZA: Pura
@@ -186,11 +190,18 @@ NATURALEZA: Impura (escribe en pantalla un resultado dependiendo de los minutos 
 ESTRATEGIA: estructura secuencial (no presenta recursion en su implementacion)
 IMPACTO: No destructiva
 -------------------------------------------------------------------------------------------------------------------#|
-
 (defun ciclos-por-tiempo(minutos)
     (print "La cantidad de ciclos es de:")
-    (print(truncate(/ (* minutos 60) 216 )))  ;truncate toma el resultado de una operacion y elimina el decimal, si el resultado es 28.9, quedaria 28 
- )
+    (print (truncate (/ (* minutos 60) 225)));truncate toma el resultado de una operacion y elimina el decimal, si el resultado es 28.9, quedaria 28
+)
+
+;caso pedido
+(ciclos-por-tiempo 15)
+;4
+
+;otro caso
+(ciclos-por-timepo 70)
+;18
 
 #|-------------------------------------------------------------------------------------------------------------------   
 FUNCION AUXILIAR: CalcularRestoIni
