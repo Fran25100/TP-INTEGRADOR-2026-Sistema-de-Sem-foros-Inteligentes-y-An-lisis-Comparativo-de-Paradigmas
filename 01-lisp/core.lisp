@@ -131,21 +131,19 @@ IMPACTO: No destructiva
     )
 )
 
-(print(recomendacion-ciclo (duracion-ciclo 90 120 6 3)))
-;"ciclo no optimo"
-
-(print(recomendacion-ciclo (duracion ciclo 40 60 6 3)))
-;"ciclo optimo"
-
-(print(recomendacion-ciclo (duracion-ciclo 7 12 5 3)))
-;"ciclo no potimo"
+(print (recomendacion-ciclo (duracion-ciclo 90 120 6 3)))
+;ciclo no optimo
+(print (recomendacion-ciclo (duracion-ciclo 40 60 6 3)))
+;ciclo optimo
+(print (recomendacion-ciclo (duracion-ciclo 7 12 5 3)))
+;ciclo no optimo
 
 #|-------------------------------------------------------------------------------------------------------------------
 FUNCIÓN: ciclos-por-tiempo
 NATURALEZA: Impura (escribe en pantalla un resultado dependiendo de los minutos de entrada)
 ESTRATEGIA: estructura secuencial (no presenta recursion en su implementacion)
 IMPACTO: No destructiva
--------------------------------------------------------------------------------------------------------------------#|
+-------------------------------------------------------------------------------------------------------------------|#
 (defun ciclos-por-tiempo(minutos)
     (print "La cantidad de ciclos es de:")
     (print (truncate (/ (* minutos 60) 216)));truncate toma el resultado de una operacion y elimina el decimal, si el resultado es 28.9, quedaria 28
