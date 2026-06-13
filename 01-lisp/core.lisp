@@ -109,11 +109,11 @@ IMPACTO: No destructiva
 )
 
 ;ciclo pedido (con iteracion 2 extension 1)
-(duracion-ciclo 87 117 3 3)
+(print(duracion-ciclo 87 117 3 3))
 ;216
 
 ;otro ciclo
-(duracion-ciclo 40 60 5 2)
+(print(duracion-ciclo 40 60 5 2))
 ;111
 
 #|-------------------------------------------------------------------------------------------------------------------
