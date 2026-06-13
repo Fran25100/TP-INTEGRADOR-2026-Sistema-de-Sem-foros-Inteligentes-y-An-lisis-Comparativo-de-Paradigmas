@@ -150,11 +150,11 @@ IMPACTO: No destructiva
 )
 
 ;caso pedido
-(ciclos-por-tiempo 15)
+(print(ciclos-por-tiempo 15))
 ;4
 
 ;otro caso
-(ciclos-por-timepo 70)
+(print(ciclos-por-timepo 70))
 ;18
 
 #|-------------------------------------------------------------------------------------------------------------------   
