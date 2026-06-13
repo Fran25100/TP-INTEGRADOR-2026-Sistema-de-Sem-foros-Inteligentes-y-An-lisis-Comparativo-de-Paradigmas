@@ -13,14 +13,14 @@ IMPACTO: No destructiva
     )
 )
 
-(transicion 'en-verde 'cambiar-a-amarillo)
-(EN-VERDE VERDE-INTERMITENTE "CAMBIAR-A-AMARILLO")
+(print(transicion 'en-verde 'cambiar-a-amarillo))
+;(EN-VERDE VERDE-INTERMITENTE "CAMBIAR-A-AMARILLO")
 
-(transicion 'en-verde 'cambiar-a-rojo)
-(EN-VERDE ACCION-POR-DEFECTO)
+(print(transicion 'en-verde 'cambiar-a-rojo))
+;(EN-VERDE ACCION-POR-DEFECTO)
 
-(transicion 'en-amarillo 'cambiar-a-rojo)
-(EN-AMARILLO AMARILLO-INTERMITENTE "CAMBIAR-A-ROJO")
+(print(transicion 'en-amarillo 'cambiar-a-rojo))
+;(EN-AMARILLO AMARILLO-INTERMITENTE "CAMBIAR-A-ROJO")
 
 
 
@@ -43,26 +43,28 @@ Impacto En Memoria: No Destructiva, no realiza cambios
     )
 )
 
-(timer 526)
-EN-VERDE
+(print(timer 526))
+;EN-VERDE
 
-(timer 2869)
-EN-ROJO
+(print(timer 2869))
+;EN-ROJO
 
-(timer 2895)
-EN-ROJO-INTERMITENTE
+(print(timer 2895))
+;EN-ROJO-INTERMITENTE
 
-(timer 1)
-EN-ROJO
+(print(timer 1))
+;EN-ROJO
 
-(timer 213)
-EN-AMARILLO-INTERMITENTE
+(print(timer 213))
+;EN-AMARILLO-INTERMITENTE
 
-(timer 212)
-EN-AMARILLO
+(print(timer 212))
+;EN-AMARILLO
 
-(timer 217)
-EN-ROJO
+(print(timer 217))
+;EN-ROJO
+
+
 #|-------------------------------------------------------------------------------------------------------------------
 Funcion: LogginLights
 Naturaleza: Impura (por FORMAT T y GET-UNIVERSAL-TIME, escribe en pantalla segun los datos de entrada)
