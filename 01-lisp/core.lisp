@@ -8,7 +8,7 @@ IMPACTO: No destructiva
     (cond
         ((and (equal color-actual 'en-verde) (equal cambiar-a 'cambiar-a-amarillo)) (list color-actual 'verde-intermitente "CAMBIAR-A-AMARILLO" ))
         ((and (equal color-actual 'en-amarillo) (equal cambiar-a 'cambiar-a-rojo)) (list color-actual 'amarillo-intermitente "CAMBIAR-A-ROJO"))
-        ((and (equal color-actual 'en-rojo) (equal cambiar-a 'cambiar-a-verde)) (list color-actual 'rojo-intermitente "CAMBIAR-A-Verde" ))
+        ((and (equal color-actual 'en-rojo) (equal cambiar-a 'cambiar-a-verde)) (list color-actual 'rojo-intermitente "CAMBIAR-A-VERDE" ))
         (t (list color-actual 'accion-por-defecto ))
     )
 )
@@ -21,6 +21,8 @@ IMPACTO: No destructiva
 
 (transicion 'en-amarillo 'cambiar-a-rojo)
 (EN-AMARILLO AMARILLO-INTERMITENTE "CAMBIAR-A-ROJO")
+
+
 
 #|-------------------------------------------------------------------------------------------------------------------
 Funcion: timer
