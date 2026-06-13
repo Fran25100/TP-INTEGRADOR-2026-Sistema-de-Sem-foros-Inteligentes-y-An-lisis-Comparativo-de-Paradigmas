@@ -131,13 +131,13 @@ IMPACTO: No destructiva
     )
 )
 
-(recomendacion-ciclo (duracion-ciclo 90 120 6 3))
+(print(recomendacion-ciclo (duracion-ciclo 90 120 6 3)))
 ;"ciclo no optimo"
 
-(recomendacion-ciclo (duracion ciclo 40 60 6 3))
+(print(recomendacion-ciclo (duracion ciclo 40 60 6 3)))
 ;"ciclo optimo"
 
-(recomendacion-ciclo (duracion-ciclo 7 12 5 3))
+(print(recomendacion-ciclo (duracion-ciclo 7 12 5 3)))
 ;"ciclo no potimo"
 
 #|-------------------------------------------------------------------------------------------------------------------
@@ -277,8 +277,7 @@ IMPACTO: No destructiva
 (informe (list (logginLights 'en-rojo 'en-rojo-intermitente) (logginLights 'en-rojo-intermitente 'en-verde)
  (logginLights 'en-verde 'en-verde-intermitente) (logginLights 'en-verde-intermitente 'en-amarillo)
 (logginLights 'en-amarillo 'en-amarillo-intermitente) (logginLights 'en-amarillo-intermitente 'en-rojo)
- )
-)
+ ))
 
 (defun informe (datos)
  (with-open-file (stream "informe-ejecucion-semaforo.txt" :direction :output)
@@ -286,8 +285,7 @@ IMPACTO: No destructiva
    (format stream "=========================================~%")
 
    (mapcar #'(lambda (x) (format stream "~A~%" x)) datos)
-   ;; Implementar iteración sobre datos y formateo
-   ;; Ejemplo de línea: "2024-06-04 14:30:15 - Transición: ROJO → VERDE"
+
    (format stream "~% --- Fin del Informe ---")
    )
  )
