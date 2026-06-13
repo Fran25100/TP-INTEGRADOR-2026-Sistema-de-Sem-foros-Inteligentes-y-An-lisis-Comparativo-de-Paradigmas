@@ -74,24 +74,26 @@ Impacto En Memoria: No Destructiva, no realiza cambios
 ;correcion: se automatizo el tiempo para que sea calculado directamente dentro de esta funcion, en vez de un tiempo que puede estar
 ;desactualizado, restamos al tiempo el cual esta dado desde 1970 unos 70 años para que se sicronicen correctamente. 
 
-;aqui estaria la funcion logginLights pero la movi hacia abajo
+(defun logginLights (color-actual cambio-color)
+    (format nil "Tiempo ~D: la luz ah cambiado de color ~S a ~S" (- (get-universal-time) 2208988800) color-actual cambio-color)
+)
 
-(logginLights 'en-rojo 'en-rojo-intermitente)
+(print(logginLights 'en-rojo 'en-rojo-intermitente))
 ;Tiempo 1781220382: la luz ah cambiado de color EN-ROJO a EN-ROJO-INTERMITENTE
 
-(logginLights 'en-rojo-intermitente 'en-verde)
+(print(logginLights 'en-rojo-intermitente 'en-verde))
 ;Tiempo 1781220197: la luz ah cambiado de color EN-ROJO-INTERMITENTE a EN-VERDE
 
-(logginLights 'en-verde 'en-verde-intermitente)
+(print(logginLights 'en-verde 'en-verde-intermitente))
 ;Tiempo 1781220439: la luz ah cambiado de color EN-VERDE a EN-VERDE-INTERMITENTE
 
-(logginLights 'en-verde-intermitente 'en-amarillo)
+(print(logginLights 'en-verde-intermitente 'en-amarillo))
 ;Tiempo 1781220476: la luz ah cambiado de color EN-VERDE-INTERMITENTE a EN-AMARILLO
 
-(logginLights 'en-amarillo 'en-amarillo-intermitente)
+(print(logginLights 'en-amarillo 'en-amarillo-intermitente))
 ;Tiempo 1781220500: la luz ah cambiado de color EN-AMARILLO a EN-AMARILLO-INTERMITENTE
 
-(logginLights 'en-amarillo-intermitente 'en-rojo)
+(print(logginLights 'en-amarillo-intermitente 'en-rojo))
 ;Tiempo 1781220532: la luz ah cambiado de color EN-AMARILLO-INTERMITENTE a EN-ROJO
 
 #|-------------------------------------------------------------------------------------------------------------------
@@ -270,9 +272,7 @@ IMPACTO: No destructiva
 
 (print (distribuciontemp 3600))
 
-(defun logginLights (color-actual cambio-color)
-    (format nil "Tiempo ~D: la luz ah cambiado de color ~S a ~S" (- (get-universal-time) 2208988800) color-actual cambio-color)
-)
+
 ;Extension 2, sistema de datos
 (informe (list (logginLights 'en-rojo 'en-rojo-intermitente) (logginLights 'en-rojo-intermitente 'en-verde)
  (logginLights 'en-verde 'en-verde-intermitente) (logginLights 'en-verde-intermitente 'en-amarillo)
